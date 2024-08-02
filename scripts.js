@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Confetti animation
-const duration = 10 * 1000,
+const duration = 2000,
   animationEnd = Date.now() + duration,
   defaults = { startVelocity: 20, spread: 360, ticks: 60, zIndex: 0 };
 
@@ -104,7 +104,7 @@ const interval = setInterval(function() {
     return clearInterval(interval);
   }
 
-  const particleCount = 50 * (timeLeft / duration);
+  const particleCount = 10 * (timeLeft / duration);
 
   // since particles fall down, start a bit higher than random
   confetti(
