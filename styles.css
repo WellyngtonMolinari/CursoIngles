@@ -322,3 +322,8 @@ hr::before {
         left: 100%;
     }
 }
+
+/* Esmaecimento */
+.visited {
+    opacity: 0.6;
+}

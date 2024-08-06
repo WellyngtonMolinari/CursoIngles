@@ -37,9 +37,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 toggleBtn.style.display = 'block';
                 container.classList.add('full-width');
             }
+
+            // Marcar o link como visitado
+            link.classList.add('visited');
+            localStorage.setItem(link.href, 'visited');
         });
+
+        // Verificar se o link foi visitado
+        if (localStorage.getItem(link.href) === 'visited') {
+            link.classList.add('visited');
+        }
     });
 
+    const links = document.querySelectorAll('.sidebar a, .container a');
+
+    links.forEach(link => {
+        link.addEventListener('click', function() {
+            link.classList.add('visited');
+            localStorage.setItem(link.href, 'visited');
+        });
+
+        if (localStorage.getItem(link.href) === 'visited') {
+            link.classList.add('visited');
+        }
+    });
+    
     const sections = document.querySelectorAll('.container h2, .container h3'); // Seções que serão monitoradas
     const navLinks = document.querySelectorAll('.sidebar a'); // Links na sidebar
 
