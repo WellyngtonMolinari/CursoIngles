@@ -27,41 +27,38 @@ document.addEventListener("DOMContentLoaded", function() {
         toggleBtn.style.display = 'block';
     });
     
-    // Adicionar evento de clique em links da sidebar para esconder a sidebar ao clicar
-    const sidebarLinks = sidebar.querySelectorAll('a');
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (window.innerWidth <= 1000) { // Apenas para dispositivos móveis
-                sidebar.classList.remove('active');
-                sidebar.classList.add('hidden');
-                toggleBtn.style.display = 'block';
-                container.classList.add('full-width');
-            }
-
-            // Marcar o link como visitado
-            link.classList.add('visited');
-            localStorage.setItem(link.href, 'visited');
-        });
-
-        // Verificar se o link foi visitado
-        if (localStorage.getItem(link.href) === 'visited') {
-            link.classList.add('visited');
-        }
-    });
-
     const links = document.querySelectorAll('.sidebar a, .container a');
 
     links.forEach(link => {
         link.addEventListener('click', function() {
             link.classList.add('visited');
             localStorage.setItem(link.href, 'visited');
+
+            // Encontrar e marcar o <ul> correspondente como visitado
+            const listItem = link.closest('li');
+            if (listItem) {
+                const nestedList = listItem.querySelector('ul');
+                if (nestedList) {
+                    nestedList.classList.add('visited');
+                    localStorage.setItem(nestedList.dataset.id, 'visited');
+                }
+            }
         });
 
         if (localStorage.getItem(link.href) === 'visited') {
             link.classList.add('visited');
+
+            // Encontrar e marcar o <ul> correspondente como visitado
+            const listItem = link.closest('li');
+            if (listItem) {
+                const nestedList = listItem.querySelector('ul');
+                if (nestedList) {
+                    nestedList.classList.add('visited');
+                }
+            }
         }
     });
-    
+
     const sections = document.querySelectorAll('.container h2, .container h3'); // Seções que serão monitoradas
     const navLinks = document.querySelectorAll('.sidebar a'); // Links na sidebar
 
