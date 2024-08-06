@@ -83,8 +83,8 @@
         </section>
         <hr>
         <!-- Módulo 2 -->
-        <section>
-            <h2 id="module2"><strong>Módulo 2: Intermediário</strong></h2>
+        <section id="module2">
+            <h2 id="module2"><strong>Módulo 2: Intermediário (<span id="progress-module2">0% concluído</span>)</strong></strong></h2>
             <p>Aprimoramento de vocabulário e estruturas gramaticais intermediárias.</p>
             <ul>
                 <li><a href="modulo2/aprimoramento.html"><strong>Aprimoramento de Vocabulário</strong></a>
@@ -116,7 +116,7 @@
         </section>
         <hr>
         <!-- Módulo 3 -->
-        <section>
+        <section id="module3">
             <h2 id="module3"><strong>Módulo 3: Avançado</strong></h2>
             <p>Vocabulário específico e estruturas gramaticais avançadas.</p>
             <ul>
@@ -149,7 +149,7 @@
         </section>
         <hr>
         <!-- Módulo 4 -->
-        <section>
+        <section id="module4">
             <h2 id="module4"><strong>Módulo Extra: Preparação para Exames</strong></h2>
             <p>Preparação para exames de proficiência em inglês.</p>
             <ul>
@@ -192,39 +192,44 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Selecionar todos os links dentro da seção do módulo 1
-            const module1Section = document.getElementById('module1');
-            const module1Links = module1Section.querySelectorAll("a");
-            const progressSpan = document.getElementById("progress-module1");
+            function initializeModule(moduleId, progressId, storageKey) {
+                const moduleSection = document.getElementById(moduleId);
+                const moduleLinks = moduleSection.querySelectorAll("a");
+                const progressSpan = document.getElementById(progressId);
 
-            // Recuperar cliques salvos do armazenamento local
-            let clickedLinks = new Set(JSON.parse(localStorage.getItem('clickedLinks-module1') || '[]'));
+                // Recuperar cliques salvos do armazenamento local
+                let clickedLinks = new Set(JSON.parse(localStorage.getItem(storageKey) || '[]'));
 
-            console.log('Links salvos ao carregar:', clickedLinks);
-            console.log('Total de links:', module1Links.length);
+                console.log(`Links salvos ao carregar (${moduleId}):`, clickedLinks);
+                console.log(`Total de links (${moduleId}):`, moduleLinks.length);
 
-            module1Links.forEach(link => {
-                console.log('Adicionando listener para o link:', link.href);
-                link.addEventListener("click", function(event) {
-                    event.preventDefault();  // Previne o comportamento padrão do link
-                    clickedLinks.add(link.href);
-                    localStorage.setItem('clickedLinks-module1', JSON.stringify(Array.from(clickedLinks)));
-                    updateProgress();
-                    console.log('Links clicados:', clickedLinks);
-                    window.location.href = link.href;  // Navegar para o link após registrar o clique
+                moduleLinks.forEach(link => {
+                    console.log(`Adicionando listener para o link (${moduleId}):`, link.href);
+                    link.addEventListener("click", function(event) {
+                        event.preventDefault();  // Previne o comportamento padrão do link
+                        clickedLinks.add(link.href);
+                        localStorage.setItem(storageKey, JSON.stringify(Array.from(clickedLinks)));
+                        updateProgress();
+                        console.log(`Links clicados (${moduleId}):`, clickedLinks);
+                        window.location.href = link.href;  // Navegar para o link após registrar o clique
+                    });
                 });
-            });
 
-            function updateProgress() {
-                const totalLinks = module1Links.length;
-                const clickedLinksCount = clickedLinks.size;
-                const completionRate = (totalLinks > 0) ? (clickedLinksCount / totalLinks) * 100 : 0;
-                progressSpan.textContent = `${completionRate.toFixed(0)}% concluído`;
-                console.log(`Total de links: ${totalLinks}, Links clicados: ${clickedLinksCount}, Taxa de conclusão: ${completionRate.toFixed(0)}%`);
+                function updateProgress() {
+                    const totalLinks = moduleLinks.length;
+                    const clickedLinksCount = clickedLinks.size;
+                    const completionRate = (totalLinks > 0) ? (clickedLinksCount / totalLinks) * 100 : 0;
+                    progressSpan.textContent = `${completionRate.toFixed(0)}% concluído`;
+                    console.log(`Total de links (${moduleId}): ${totalLinks}, Links clicados (${moduleId}): ${clickedLinksCount}, Taxa de conclusão (${moduleId}): ${completionRate.toFixed(0)}%`);
+                }
+
+                // Atualizar a progressão ao carregar a página
+                updateProgress();
             }
 
-            // Atualizar a progressão ao carregar a página
-            updateProgress();
+            // Inicializar ambos os módulos
+            initializeModule('module1', 'progress-module1', 'clickedLinks-module1');
+            initializeModule('module2', 'progress-module2', 'clickedLinks-module2');
         });
     </script>
 </body>
