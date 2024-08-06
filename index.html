@@ -41,10 +41,8 @@
             <img src="imagens/do you speak.jpg" alt="Imagem do Curso">
         </div>
         <hr>
-        <!-- Módulo 1 -->
-        <section>
+        <section id="module1">
             <h2 id="module1"><strong>Módulo 1: Iniciante (<span id="progress-module1">0% concluído</span>)</strong></h2>
-
             <p>Fundamentos do Inglês e vocabulário básico para iniciantes.</p>
             <ul>
                 <li><a href="modulo1/fundamentos.html"><strong>Fundamentos do Inglês</strong></a>
@@ -83,7 +81,6 @@
                 </li>
             </ul>
         </section>
-
         <hr>
         <!-- Módulo 2 -->
         <section>
@@ -192,5 +189,43 @@
     </footer>
 
     <script src="scripts.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Selecionar todos os links dentro da seção do módulo 1
+            const module1Section = document.getElementById('module1');
+            const module1Links = module1Section.querySelectorAll("a");
+            const progressSpan = document.getElementById("progress-module1");
+
+            // Recuperar cliques salvos do armazenamento local
+            let clickedLinks = new Set(JSON.parse(localStorage.getItem('clickedLinks-module1') || '[]'));
+
+            console.log('Links salvos ao carregar:', clickedLinks);
+            console.log('Total de links:', module1Links.length);
+
+            module1Links.forEach(link => {
+                console.log('Adicionando listener para o link:', link.href);
+                link.addEventListener("click", function(event) {
+                    event.preventDefault();  // Previne o comportamento padrão do link
+                    clickedLinks.add(link.href);
+                    localStorage.setItem('clickedLinks-module1', JSON.stringify(Array.from(clickedLinks)));
+                    updateProgress();
+                    console.log('Links clicados:', clickedLinks);
+                    window.location.href = link.href;  // Navegar para o link após registrar o clique
+                });
+            });
+
+            function updateProgress() {
+                const totalLinks = module1Links.length;
+                const clickedLinksCount = clickedLinks.size;
+                const completionRate = (totalLinks > 0) ? (clickedLinksCount / totalLinks) * 100 : 0;
+                progressSpan.textContent = `${completionRate.toFixed(0)}% concluído`;
+                console.log(`Total de links: ${totalLinks}, Links clicados: ${clickedLinksCount}, Taxa de conclusão: ${completionRate.toFixed(0)}%`);
+            }
+
+            // Atualizar a progressão ao carregar a página
+            updateProgress();
+        });
+    </script>
 </body>
 </html>

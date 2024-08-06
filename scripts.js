@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Função para atualizar o estado dos links da sidebar
     function updateSidebarLinks() {
-        let currentSection = '1';
+        let currentSection = ' ';
 
         // Encontrar a seção atualmente visível
         sections.forEach(section => {
