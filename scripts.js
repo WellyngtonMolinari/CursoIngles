@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function() {
         toggleBtn.style.display = 'block';
     });
     
-    const links = document.querySelectorAll('.sidebar a, .container a');
+    const links = document.querySelectorAll('.container a');
+    // if you want to work the opacity of sidebar when clicked remove the comment
+    // const links = document.querySelectorAll('.sidebar a, .container a');
 
     links.forEach(link => {
         link.addEventListener('click', function() {

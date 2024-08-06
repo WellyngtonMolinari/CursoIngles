@@ -117,7 +117,7 @@
         <hr>
         <!-- Módulo 3 -->
         <section id="module3">
-            <h2 id="module3"><strong>Módulo 3: Avançado</strong></h2>
+            <h2 id="module3"><strong>Módulo 3: Avançado (<span id="progress-module3">0% concluído</span>)</strong></h2>
             <p>Vocabulário específico e estruturas gramaticais avançadas.</p>
             <ul>
                 <li><a href="modulo3/vocabulario.html"><strong>Vocabulário Específico</strong></a>
@@ -150,7 +150,7 @@
         <hr>
         <!-- Módulo 4 -->
         <section id="module4">
-            <h2 id="module4"><strong>Módulo Extra: Preparação para Exames</strong></h2>
+            <h2 id="module4"><strong>Módulo Extra: Preparação para Exames (<span id="progress-module4">0% concluído</span>)</strong></h2>
             <p>Preparação para exames de proficiência em inglês.</p>
             <ul>
                 <li><a href="modulo4/introduçao.html"><strong>Introdução aos Exames</strong></a>
@@ -200,17 +200,12 @@
                 // Recuperar cliques salvos do armazenamento local
                 let clickedLinks = new Set(JSON.parse(localStorage.getItem(storageKey) || '[]'));
 
-                console.log(`Links salvos ao carregar (${moduleId}):`, clickedLinks);
-                console.log(`Total de links (${moduleId}):`, moduleLinks.length);
-
                 moduleLinks.forEach(link => {
-                    console.log(`Adicionando listener para o link (${moduleId}):`, link.href);
                     link.addEventListener("click", function(event) {
                         event.preventDefault();  // Previne o comportamento padrão do link
                         clickedLinks.add(link.href);
                         localStorage.setItem(storageKey, JSON.stringify(Array.from(clickedLinks)));
                         updateProgress();
-                        console.log(`Links clicados (${moduleId}):`, clickedLinks);
                         window.location.href = link.href;  // Navegar para o link após registrar o clique
                     });
                 });
@@ -220,16 +215,17 @@
                     const clickedLinksCount = clickedLinks.size;
                     const completionRate = (totalLinks > 0) ? (clickedLinksCount / totalLinks) * 100 : 0;
                     progressSpan.textContent = `${completionRate.toFixed(0)}% concluído`;
-                    console.log(`Total de links (${moduleId}): ${totalLinks}, Links clicados (${moduleId}): ${clickedLinksCount}, Taxa de conclusão (${moduleId}): ${completionRate.toFixed(0)}%`);
                 }
 
                 // Atualizar a progressão ao carregar a página
                 updateProgress();
             }
 
-            // Inicializar ambos os módulos
+            // Inicializar todos os módulos
             initializeModule('module1', 'progress-module1', 'clickedLinks-module1');
             initializeModule('module2', 'progress-module2', 'clickedLinks-module2');
+            initializeModule('module3', 'progress-module3', 'clickedLinks-module3');
+            initializeModule('module4', 'progress-module4', 'clickedLinks-module4');
         });
     </script>
 </body>
