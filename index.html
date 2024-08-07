@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="imagens/faviconcourse.jpg" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body>
     <!-- Botão para alternar entre modos claro e escuro -->
     <button class="dark-mode-toggle" id="dark-mode-toggle">🌙</button>
 
+    <button id="install-button" style="display: none;">Install App!</button>
     <!-- Botão de Toggle para a Sidebar -->
     <button class="toggle-btn" id="toggle-sidebar">☰ Menu</button>
     
@@ -187,7 +189,40 @@
     </footer>
 
     <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').then(registration => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+          }
 
+          let deferredPrompt;
+
+          window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt event fired');
+            e.preventDefault();
+            deferredPrompt = e;
+            const installButton = document.querySelector('#install-button');
+            if (installButton) {
+              installButton.style.display = 'block';
+              installButton.addEventListener('click', (e) => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                  if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                  } else {
+                    console.log('User dismissed the install prompt');
+                  }
+                  deferredPrompt = null;
+                });
+              });
+            }
+          });
+        });
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function initializeModule(moduleId, progressId, storageKey) {
