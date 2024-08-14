@@ -243,41 +243,46 @@ a:hover {
     background-color: #216f94;
 }
 
-/* Responsividade */
+ /* Responsividade para dispositivos móveis */
 @media (max-width: 1000px) {
+    /* Ajustes gerais */
     .container {
-        margin-left: 20px; /* Ajuste dinâmico da margem esquerda */
-        max-width: calc(100% - 40px); /* Reduz a largura máxima considerando margens */
-        padding-left: 20px;
-        padding-right: 20px;
+        margin-left: 0;
+        max-width: 100%;
+        padding: 15px;
     }
 
+    /* Esconder a sidebar por padrão */
     .sidebar {
-        width: 250px; /* Largura original da sidebar */
+        transform: translateX(-100%);
+        width: 250px;
+        opacity: 1; /* Deixar a sidebar um pouco transparente */
+        position: fixed;
+        z-index: 1000;
+        background-color: rgba(248, 249, 250, 0.9); /* Cor com transparência */
     }
 
+    /* Mostrar o botão "Menu" */
     .toggle-btn {
-        z-index: 1200; /* Aumenta o z-index para que o botão fique acima da sidebar */
-    }
-}
-
-@media (max-width: 600px) {
-    body {
-        flex-direction: column;
+        display: block;
     }
 
-    ul {
-        padding-left: 15px;
+    /* Ajuste do botão de esconder sidebar */
+    .hide-sidebar-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
     }
 
-    ul ul {
-        padding-left: 15px;
-        margin-left: 10px;
+    /* Quando a sidebar está visível */
+    .sidebar.visible {
+        transform: translateX(0);
     }
 
-    .container {
-        margin-top: 10px;
-        padding: 10px;
+    /* Container quando a sidebar está oculta */
+    .container.full-width {
+        margin-left: 0;
+        max-width: 100%;
     }
 }
 

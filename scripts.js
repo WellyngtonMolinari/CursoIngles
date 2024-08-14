@@ -4,27 +4,62 @@ document.addEventListener("DOMContentLoaded", function() {
     const container = document.getElementById('main-content');
     const hideSidebarBtn = document.getElementById('hide-sidebar');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
-
+    
+    // Função para alternar a visibilidade da sidebar (mobile) e colapsar/expandir (desktop)
     toggleBtn.addEventListener('click', function() {
-        sidebar.classList.toggle('active');
-        sidebar.classList.toggle('hidden');
-        container.classList.toggle('full-width');
-        
-        // Alternar a visibilidade do botão de toggle "Menu"
-        if (sidebar.classList.contains('active')) {
-            toggleBtn.style.display = 'none'; // Esconde o botão "Menu" quando a sidebar está visível
+        if (window.innerWidth <= 1000) {
+            // Comportamento em dispositivos móveis
+            if (!sidebar.classList.contains('hidden')) {
+                sidebar.classList.toggle('visible');
+                container.classList.toggle('full-width');
+                
+                // Alternar a visibilidade do botão "Menu"
+                if (sidebar.classList.contains('visible')) {
+                    toggleBtn.style.display = 'none'; // Esconde o botão "Menu" quando a sidebar está visível
+                } else {
+                    toggleBtn.style.display = 'block'; // Mostra o botão "Menu" quando a sidebar está escondida
+                }
+            }
         } else {
-            toggleBtn.style.display = 'block'; // Mostra o botão "Menu" quando a sidebar está escondida
+            // Comportamento na versão desktop
+            if (!sidebar.classList.contains('visible')) {
+                sidebar.classList.toggle('hidden');
+                container.classList.toggle('full-width');
+            }
         }
     });
-
+    
+    // Função para esconder a sidebar no desktop ou mobile
     hideSidebarBtn.addEventListener('click', function() {
-        sidebar.classList.remove('active');
-        sidebar.classList.add('hidden');
-        container.classList.toggle('full-width');
-        
-        // Mostrar o botão "Menu" quando a sidebar está escondida
-        toggleBtn.style.display = 'block';
+        if (window.innerWidth <= 1000) {
+            // Comportamento em dispositivos móveis
+            if (sidebar.classList.contains('visible')) {
+                sidebar.classList.remove('visible');
+                container.classList.add('full-width');
+                toggleBtn.style.display = 'block'; // Mostrar o botão "Menu" quando a sidebar está escondida
+            }
+        } else {
+            // Comportamento na versão desktop
+            if (!sidebar.classList.contains('visible')) {
+                sidebar.classList.add('hidden');
+                container.classList.add('full-width');
+            }
+        }
+    });
+    
+    // Garantir que o comportamento seja atualizado ao redimensionar a janela
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 1000) {
+            // Remover classes de mobile ao voltar para desktop
+            sidebar.classList.remove('visible');
+            container.classList.remove('full-width');
+            toggleBtn.style.display = 'none'; // Esconder o botão "Menu" em desktop
+        } else {
+            // Resetar para mobile se necessário
+            sidebar.classList.remove('hidden');
+            container.classList.remove('full-width');
+            toggleBtn.style.display = 'block'; // Mostrar o botão "Menu" em mobile
+        }
     });
     
     const links = document.querySelectorAll('.container a');
