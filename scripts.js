@@ -9,23 +9,18 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleBtn.addEventListener('click', function() {
         if (window.innerWidth <= 1000) {
             // Comportamento em dispositivos móveis
-            if (!sidebar.classList.contains('hidden')) {
-                sidebar.classList.toggle('visible');
-                container.classList.toggle('full-width');
-                
-                // Alternar a visibilidade do botão "Menu"
-                if (sidebar.classList.contains('visible')) {
-                    toggleBtn.style.display = 'none'; // Esconde o botão "Menu" quando a sidebar está visível
-                } else {
-                    toggleBtn.style.display = 'block'; // Mostra o botão "Menu" quando a sidebar está escondida
-                }
-            }
+            sidebar.classList.toggle('visible');
+            container.classList.toggle('full-width');
+    
+            // Alternar a visibilidade do botão "Menu"
+            toggleBtn.style.display = sidebar.classList.contains('visible') ? 'none' : 'block';
         } else {
             // Comportamento na versão desktop
-            if (!sidebar.classList.contains('visible')) {
-                sidebar.classList.toggle('hidden');
-                container.classList.toggle('full-width');
-            }
+            sidebar.classList.toggle('hidden');
+            container.classList.toggle('full-width');
+            
+            // Sempre mostrar o botão "Menu" quando a sidebar estiver escondida
+            toggleBtn.style.display = sidebar.classList.contains('hidden') ? 'block' : 'none';
         }
     });
     
@@ -40,10 +35,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         } else {
             // Comportamento na versão desktop
-            if (!sidebar.classList.contains('visible')) {
-                sidebar.classList.add('hidden');
-                container.classList.add('full-width');
-            }
+            sidebar.classList.add('hidden');
+            container.classList.add('full-width');
+            toggleBtn.style.display = 'block'; // Mostrar o botão "Menu" quando a sidebar está escondida
         }
     });
     
