@@ -44,7 +44,12 @@
         </div>
         <hr>
         <section id="module1">
-            <h2 id="module1"><strong>Módulo 1: Iniciante (<span id="progress-module1">0% concluído</span>)</strong></h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar1"></div>
+                <div class="progress-text" id="progress-text1">0% concluído</div>
+            </div>
+            <h2 id="module1"><strong>Módulo 1: Iniciante</strong></h2>
+
             <p>Fundamentos do Inglês e vocabulário básico para iniciantes.</p>
             <ul>
                 <li><a href="modulo1/fundamentos.html"><strong>Fundamentos do Inglês</strong></a>
@@ -86,7 +91,7 @@
         <hr>
         <!-- Módulo 2 -->
         <section id="module2">
-            <h2 id="module2"><strong>Módulo 2: Intermediário (<span id="progress-module2">0% concluído</span>)</strong></strong></h2>
+            <h2 id="module2"><strong>Módulo 2: Intermediário <span id="progress-module2">0% concluído</span></strong></strong></h2>
             <p>Aprimoramento de vocabulário e estruturas gramaticais intermediárias.</p>
             <ul>
                 <li><a href="modulo2/aprimoramento.html"><strong>Aprimoramento de Vocabulário</strong></a>
@@ -119,7 +124,7 @@
         <hr>
         <!-- Módulo 3 -->
         <section id="module3">
-            <h2 id="module3"><strong>Módulo 3: Avançado (<span id="progress-module3">0% concluído</span>)</strong></h2>
+            <h2 id="module3"><strong>Módulo 3: Avançado <span id="progress-module3">0% concluído</span></strong></h2>
             <p>Vocabulário específico e estruturas gramaticais avançadas.</p>
             <ul>
                 <li><a href="modulo3/vocabulario.html"><strong>Vocabulário Específico</strong></a>
@@ -152,7 +157,7 @@
         <hr>
         <!-- Módulo 4 -->
         <section id="module4">
-            <h2 id="module4"><strong>Módulo Extra: Preparação para Exames (<span id="progress-module4">0% concluído</span>)</strong></h2>
+            <h2 id="module4"><strong>Módulo Extra: Preparação para Exames <span id="progress-module4">0% concluído</span></strong></h2>
             <p>Preparação para exames de proficiência em inglês.</p>
             <ul>
                 <li><a href="modulo4/introduçao.html"><strong>Introdução aos Exames</strong></a>
@@ -225,10 +230,11 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            function initializeModule(moduleId, progressId, storageKey) {
+            function initializeModule(moduleId, progressBarId, progressTextId, storageKey) {
                 const moduleSection = document.getElementById(moduleId);
                 const moduleLinks = moduleSection.querySelectorAll("a");
-                const progressSpan = document.getElementById(progressId);
+                const progressBar = document.getElementById(progressBarId);
+                const progressText = document.getElementById(progressTextId);
 
                 // Recuperar cliques salvos do armazenamento local
                 let clickedLinks = new Set(JSON.parse(localStorage.getItem(storageKey) || '[]'));
@@ -247,19 +253,23 @@
                     const totalLinks = moduleLinks.length;
                     const clickedLinksCount = clickedLinks.size;
                     const completionRate = (totalLinks > 0) ? (clickedLinksCount / totalLinks) * 100 : 0;
-                    progressSpan.textContent = `${completionRate.toFixed(0)}% concluído`;
+
+                    // Atualizar barra de progresso e texto
+                    progressBar.style.width = `${completionRate}%`;
+                    progressText.textContent = `${completionRate.toFixed(0)}% concluído`;
                 }
 
                 // Atualizar a progressão ao carregar a página
                 updateProgress();
             }
 
-            // Inicializar todos os módulos
-            initializeModule('module1', 'progress-module1', 'clickedLinks-module1');
-            initializeModule('module2', 'progress-module2', 'clickedLinks-module2');
-            initializeModule('module3', 'progress-module3', 'clickedLinks-module3');
-            initializeModule('module4', 'progress-module4', 'clickedLinks-module4');
+            // Inicializar todos os módulos com a nova barra de progresso
+            initializeModule('module1', 'progress-bar1', 'progress-text1', 'clickedLinks-module1');
+            initializeModule('module2', 'progress-bar2', 'progress-text2', 'clickedLinks-module2');
+            initializeModule('module3', 'progress-bar3', 'progress-text3', 'clickedLinks-module3');
+            initializeModule('module4', 'progress-bar4', 'progress-text4', 'clickedLinks-module4');
         });
+
     </script>
 </body>
 </html>
