@@ -217,7 +217,7 @@ section[id^="module"] li strong {
 
 /* Links */
 section[id^="module"] a {
-    color: #1f78d1; /* Azul vibrante para os links */
+    color: #27ae60; /* Verde suave para os links (original) */
     text-decoration: none;
     font-weight: bold;
     border-bottom: 2px solid transparent;
@@ -226,7 +226,7 @@ section[id^="module"] a {
 
 section[id^="module"] a:hover {
     border-bottom: 2px solid #33a6ff; /* Azul mais claro no hover */
-    color: #33a6ff;
+    color: #33a6ff; /* Azul durante o hover */
 }
 
 /* Estilo para a Porcentagem Concluída - Light Mode */
